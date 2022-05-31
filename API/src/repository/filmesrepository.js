@@ -8,3 +8,30 @@ export async function cadastrarFilme(filme){
     filme.id = resposta.insertId;
     return filme
 }
+
+
+export async function alterarImagem (imagem, id){
+    console.log(imagem);
+    console.log(id);
+
+    const comando = `
+    UPDATE tb_filme
+    SET img_filme = ?
+    WHERE id_filme  = ?;      
+    `
+    const [resposta] = await con.query(comando, [imagem,id]);
+
+    return resposta.affectedRows;
+}
+
+export async function listarTodosOsFilmes(){
+    const comando = `SELECT id_filme       id, 
+                            nm_filme       nome,
+                            vl_avaliacao   avaliacao,
+                            dt_lancamento  lancamento,
+                            bt_disponivel  disponivel
+                    FROM tb_filme`
+    const [linhas] = await con.query(comando);
+    return linhas;
+    
+}
